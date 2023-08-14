@@ -1,0 +1,20 @@
+{% load static %}
+    <!DOCTYPE html>
+    <html lang="CN">
+<head>
+    <meta charset="UTF-8">
+    <title>问答系统</title>
+    <!-- 其他的 meta 标签、样式表和脚本引入 -->
+</head>
+<body>
+    <!-- 页面内容 -->
+    <div>
+    请翻译这个句子：<input type="text" id="question-input" placeholder="请输入你的问题">
+    <button type="submit">提交</button>
+    </div>
+    <div id="answer-container">
+    <!-- 回答将显示在这里 -->
+    </div>
+    <script src="{% static 'js/ask.js' %}"></script>
+</body>
+</html>

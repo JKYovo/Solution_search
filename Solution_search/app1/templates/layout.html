@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>工单查询系统</title>
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-3.4.1/css/bootstrap.min.css' %}">
+    <link rel="icon" href="{% static 'img/狗头512.ico' %}" type="image/x-icon">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+    .navbar {
+        border-radius: 0;
+        background-color: #252531;
+    }
+    /* 修改其他列表项的颜色 */
+    .navbar-nav > li > a {
+        color: #dedede;
+        transition: color 0.2s; /* 添加过渡效果，使颜色切换平滑 */
+    }
+    /* 修改解决方案查询系统的颜色 */
+    .navbar-brand {
+        color: #dedede;
+        transition: color 0.2s; /* 添加过渡效果，使颜色切换平滑 */
+    }
+    /* 鼠标悬停时的效果 */
+    .navbar-nav > li > a:hover {
+        color: #dedede !important; /* 修改鼠标悬停时的文本颜色 */
+    }
+    .navbar-brand:hover {
+        color: #dedede !important; /* 修改鼠标悬停时的文本颜色 */
+    }
+    /* 调整 logo 图片的垂直位置 */
+    .navbar-brand img {
+        max-height: 50px;
+        vertical-align: middle;
+        margin-left: -170px;
+        margin-top: -10px; /* 调整 logo 图片向下的间距 */
+    }
+
+
+</style>
+
+
+    {% block css %}{% endblock %}
+
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                <img src="{% static 'img/Custom_HeadLogo.gif' %}" alt="Logo">
+            </a>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">工单查询系统</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="/scheme/list">解决方案</a></li>
+                <li><a href="/request/list">请求</a></li>
+                <li><a href="/help">帮助</a></li>
+                <li><a href="/search">搜索引擎</a></li>
+
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">登录</a></li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">admin<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">资料</a></li>
+                        <li><a href="#">信息</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">注销</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div>
+    {% block content %}{% endblock %}
+</div>
+
+
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'plugins/bootstrap-3.4.1/js/bootstrap.min.js' %}"></script>
+{% block js %}{% endblock %}
+</body>
+</html>

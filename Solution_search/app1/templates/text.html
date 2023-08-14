@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+
+<td class=" evenRow" colidx="1" id="SolutionsListView_r_0_1" style="width:380px; ">
+
+    <div class="d_w" style="width:380px;">
+
+
+
+
+
+
+<table id="statusfixtable" cellpadding="1"><tbody><tr><td height="20px;"><a class="blueHeading" style="text-decoration:none !important;" href="AddSolution.do?submitaction=viewsolution&amp;fromListView=true&amp;solutionID=105">WLAN默认的Fast Transition - Adaptive Enable导致部分客户端无法连接无线网络</a></td></tr><tr><td height="20px;"><span class="fontGray"><b>主题 : </b></span><b>无线网络</b></td></tr><tr><td height="20px;" class="pb10" style="color: #444;">1，问题现象用户反馈有2个安卓终端，无法加入SSID “Dinkle-BCS-CISCO”。无线环境为WLC 9800 + WiFi6 AP，安卓终端的规格中表示支持WiFi 5标准。附图如下2，处理过程从上图看，客户端识别到WiFi4标准。（部分安卓终端在WLAN菜单和页面会显示是第几代的WiFi标准）但是用户提供的信息，该安卓设备是支持WiFi5标准的，故初步判断，可能是有兼容性问题。先检查SSID “Dinkle-BCS-CISCO”的认证方式，WPA2 PSK + Mac Address Filtering，检查mac地址名单，也有正确添加，基本排除认证不过问题。另外用户反馈安卓终端在输入PSK密码后直接显示无法连接到无线网络，WLC - Monitor - Clients，也未看到该客户端的记录。以上基本确定为无线兼容性问题，接下来进行对比测试。新建测试SSID，开放认证，可以正常连接和使用无线网络。测试SSID WPA2 + PSK（WPA相关的配置与Dinkle-BCS-CISCO相同，但是没有启用Mac Address Filtering），无法连接，现象跟上述一致。测...</td></tr><tr></tr></tbody></table>
+
+
+    </div>
+
+</td>

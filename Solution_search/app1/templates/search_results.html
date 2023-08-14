@@ -1,0 +1,37 @@
+{% extends 'layout.html' %}
+{% block content %}
+<html>
+<head>
+    <title>多搜索引擎搜索结果</title>
+</head>
+<body>
+    <h1>多搜索引擎搜索结果</h1>
+    <form method="get" action="search">
+        <input type="text" name="query" placeholder="在多个搜索引擎中搜索...">
+        <button type="submit">搜索</button>
+    </form>
+
+{#    <h2>Google 搜索结果</h2>#}
+{#    <ul>#}
+{#        {% for result in google_results %}#}
+{#            <li>{{ result }}</li>#}
+{#        {% endfor %}#}
+{#    </ul>#}
+
+    <h2>百度搜索结果</h2>
+    <ul>
+        {% for result in baidu_results %}
+            <li>{{ result }}</li>
+        {% endfor %}
+    </ul>
+
+{#    <h2>必应搜索结果</h2>#}
+{#    <ul>#}
+{#        {% for result in bing_results %}#}
+{#            <li>{{ result }}</li>#}
+{#        {% endfor %}#}
+{#    </ul>#}
+</body>
+</html>
+{% endblock %}
+```

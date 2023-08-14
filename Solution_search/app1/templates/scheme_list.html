@@ -1,0 +1,293 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <style>
+        .highlight {
+        color: #00962c;
+    }
+        .truncate-cell {
+            max-width: 100px; /* 设置最大宽度 */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .fixed-width-column {
+        width: 200px !important; /* 设置主题列的固定宽度 */
+        }
+        .miaoshu-width-column {
+        width: 600px !important; /* 设置描述列的固定宽度 */
+        }
+    </style>
+    <div class="container">
+        <div style="margin-bottom: 10px" class="clearfix">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+            <a class="btn btn-success" href="/scheme/add">
+                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                新建
+            </a>
+
+
+            <ul class="pagination">
+                {{ page_string }}
+                {# 分页跳转 #}
+                <div style="width: 20px; display: inline-block;"></div>  {# 添加空白间隔 #}
+                <div style="float: right; width: 200px;">
+                    <form method="get">
+                        <div class="input-group">
+                            <input type="text" name="page" class="form-control" placeholder="页码">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">跳转</button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </ul>
+            </div>
+
+            {# 搜索框 #}
+            <div style="float: right;width: 300px;">
+                <form method="get">
+                    <div class="input-group">
+                        <input type="text" name="q" class="form-control" placeholder="Search all..."
+                               value="{{ search_data }}">
+                        <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                        </button>
+                      </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">
+                <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                方案列表
+            </div>
+
+
+{# 方案列表下面的搜索框 #}
+            <div class="row">
+    <div class="col-md-4">
+        {# 标题框 #}
+        <form method="get">
+            <div class="input-group">
+                <input type="text" name="biao_ti" class="form-control" placeholder="Search 标题"
+                       value="{{ biaoti_data }}">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    </button>
+                </span>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-4">
+        {# 主题框 #}
+        <form method="get">
+            <div class="input-group">
+                <input type="text" name="zhu_ti" class="form-control" placeholder="Search 主题"
+                       value="{{ zhuti_data }}">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    </button>
+                </span>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-4">
+        {# 描述框 #}
+        <form method="get">
+            <div class="input-group">
+                <input type="text" name="miao_shu" class="form-control" placeholder="Search 描述"
+                       value="{{ miaoshu_data }}">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    </button>
+                </span>
+            </div>
+        </form>
+    </div>
+</div>
+
+{# 综合 #}
+{#<div class="col-md-12">#}
+{#    <form method="get">#}
+{#        <div class="input-group">#}
+{#            <div class="input-group-btn">#}
+{#                <button id="searchDropdownButton" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+{#                    综合搜索 <span class="caret"></span>#}
+{#                </button>#}
+{#                <ul class="dropdown-menu">#}
+{#                    <li><a href="#" data-search-type="combined">综合搜索</a></li>#}
+{#                    <li><a href="#" data-search-type="title">仅标题</a></li>#}
+{#                    <li><a href="#" data-search-type="theme">仅主题</a></li>#}
+{#                    <li><a href="#" data-search-type="description">仅描述</a></li>#}
+{#                </ul>#}
+{#            </div>#}
+{#            <input type="text" id="search_input_combined" name="q" class="form-control" placeholder="Search 综合"#}
+{#                   value="{{ search_data }}">#}
+{#            <input type="hidden" id="search_type" name="search_type" value="combined">#}
+{#            <span class="input-group-btn">#}
+{#                <button class="btn btn-default" type="submit">#}
+{#                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>#}
+{#                </button>#}
+{#            </span>#}
+{#        </div>#}
+{#    </form>#}
+{#</div>#}
+{##}
+{#<!-- 主题搜索 -->#}
+{#<div class="col-md-4">#}
+{#    <form method="get">#}
+{#        <div class="input-group">#}
+{#            <input type="text" id="search_input_theme" name="zhu_ti" class="form-control" placeholder="Search 主题"#}
+{#                   value="{{ zhuti_data }}">#}
+{#            <input type="hidden" id="search_type_theme" name="search_type" value="theme">#}
+{#            <span class="input-group-btn">#}
+{#                <button class="btn btn-default" type="submit">#}
+{#                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>#}
+{#                </button>#}
+{#            </span>#}
+{#        </div>#}
+{#    </form>#}
+{#</div>#}
+{##}
+{#<!-- 描述搜索 -->#}
+{#<div class="col-md-4">#}
+{#    <form method="get">#}
+{#        <div class="input-group">#}
+{#            <input type="text" id="search_input_description" name="miao_shu" class="form-control" placeholder="Search 描述"#}
+{#                   value="{{ miaoshu_data }}">#}
+{#            <input type="hidden" id="search_type_description" name="search_type" value="description">#}
+{#            <span class="input-group-btn">#}
+{#                <button class="btn btn-default" type="submit">#}
+{#                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>#}
+{#                </button>#}
+{#            </span>#}
+{#        </div>#}
+{#    </form>#}
+{#</div>#}
+{##}
+{#<script>#}
+{#    document.addEventListener("DOMContentLoaded", function () {#}
+{#        const searchButton = document.getElementById("searchDropdownButton");#}
+{#        const form = document.querySelector("form");#}
+{##}
+{#        // 处理菜单项点击事件#}
+{#        const dropdownMenu = searchButton.nextElementSibling;#}
+{#        dropdownMenu.addEventListener("click", function (event) {#}
+{#            if (event.target.tagName === "A") {#}
+{#                const searchType = event.target.getAttribute("data-search-type");#}
+{#                searchButton.innerHTML = event.target.textContent + ' <span class="caret"></span>';#}
+{#                form.querySelector("#search_type").value = searchType;#}
+{##}
+{#                // 根据搜索类型隐藏/显示不同的搜索框#}
+{#                const searchInputCombined = document.getElementById("search_input_combined");#}
+{#                const searchInputTheme = document.getElementById("search_input_theme");#}
+{#                const searchInputDescription = document.getElementById("search_input_description");#}
+{##}
+{#                if (searchType === "combined") {#}
+{#                    searchInputCombined.style.display = "block";#}
+{#                    searchInputTheme.style.display = "none";#}
+{#                    searchInputDescription.style.display = "none";#}
+{#                } else if (searchType === "theme") {#}
+{#                    searchInputCombined.style.display = "none";#}
+{#                    searchInputTheme.style.display = "block";#}
+{#                    searchInputDescription.style.display = "none";#}
+{#                } else if (searchType === "description") {#}
+{#                    searchInputCombined.style.display = "none";#}
+{#                    searchInputTheme.style.display = "none";#}
+{#                    searchInputDescription.style.display = "block";#}
+{#                }#}
+{#            }#}
+{#        });#}
+{#    });#}
+{#</script>#}
+
+
+
+
+
+            <style>
+                th{
+                    text-align: center;{# 文字居中#}
+                }
+
+                .fixed-width-column {
+                width: 100px; /* 设置主题列的固定宽度 */
+                }
+            </style>
+            <!-- Table -->
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th class="fixed-width-column">标题</th>
+                    <th>主题</th> {# 添加固定宽度类到主题列 #}
+                    <th class="miaoshu-width-column">描述</th>
+                    <th>创建人</th>
+                </tr>
+                </thead>
+                <tbody>
+                        {% for obj in queryset %}
+                        <tr>
+                            <th><a href="{{ obj.链接 }}">{{ obj.ID }}</a></th>
+                            <th><a href="{{ obj.链接 }}">
+                                {% if search_data and search_data|lower in obj.标题|lower %}
+                                    <span class="highlight"><strong>{{ obj.标题|safe }}</strong></span>
+                                {% else %}
+                                    {{ obj.标题|safe }}
+                                {% endif %}
+                            </a></th>
+                            <td>
+                                {% if search_data and search_data|lower in obj.主题|lower %}
+                                    <span class="highlight"><strong>{{ obj.主题|safe }}</strong></span>
+                                {% else %}
+                                    {{ obj.主题|safe }}
+                                {% endif %}
+                            </td>
+                            <td class="truncate-cell" title="{{ obj.描述|safe }}">
+                                {% if search_data and search_data|lower in obj.描述|lower %}
+                                    <span class="highlight"><strong>{{ obj.描述|safe }}</strong></span>
+                                {% else %}
+                                    {{ obj.描述|safe }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if search_data and search_data|lower in obj.创建人|lower %}
+                                    <span class="highlight"><strong>{{ obj.创建人|safe }}</strong></span>
+                                {% else %}
+                                    {{ obj.创建人|safe }}
+                                {% endif %}
+                            </td>
+                        <td>
+                            <a class="btn btn-primary btn-xs" href="/scheme/{{ obj.ID }}/edit">编辑</a>
+{#                          <a class="btn btn-danger btn-xs" href="/scheme/{{ obj.ID }}/delete">删除</a>#}
+                        </td>
+                    </tr>
+                {% endfor %}
+
+
+                </tbody>
+            </table>
+        </div>
+            <ul class="pagination">
+                {{ page_string }}
+                {# 分页跳转 #}
+                <div style="width: 20px; display: inline-block;"></div>  {# 添加空白间隔 #}
+                <div style="float: right; width: 200px;">
+                    <form method="get">
+                        <div class="input-group">
+                            <input type="text" name="page" class="form-control" placeholder="页码">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">跳转</button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </ul>
+        </div>
+{% endblock %}

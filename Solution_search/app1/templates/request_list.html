@@ -1,0 +1,273 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <style>
+        .highlight {
+        color: #00962c;
+    }
+        .fixed-width-column {
+        width: 150px !important; /* 设置主题列的固定宽度 */
+        }
+        .date-width-column {
+        width: 100px !important; /* 设置主题列的固定宽度 */
+        }
+        .miaoshu-width-column {
+        width: 600px !important; /* 设置描述列的固定宽度 */
+        }
+        /* 方法1: 截断过长的内容 */
+        .truncate-cell {
+            max-width: 100px; /* 设置最大宽度 */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* 方法2: 动态调整列宽 */
+        .fixed-layout-table {
+            table-layout: fixed;
+        }
+
+        /* 方法3: 使用自适应宽度 */
+        .auto-width-cell {
+            white-space: normal; /* 恢复正常换行行为 */
+        }
+
+    </style>
+    <div class="custom-container">
+    <div class="container">
+        <div style="margin-bottom: 10px" class="clearfix">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+            <a class="btn btn-success" href="/request/add">
+                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                新建
+            </a>
+
+
+            <ul class="pagination">
+                {{ page_string }}
+                {# 分页跳转 #}
+                <div style="width: 20px; display: inline-block;"></div>  {# 添加空白间隔 #}
+                <div style="float: right; width: 200px;">
+                    <form method="get">
+                        <div class="input-group">
+                            <input type="text" name="page" class="form-control" placeholder="页码">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">跳转</button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </ul>
+            </div>
+
+
+            <div style="float: right;width: 300px;">
+                <form method="get">
+                    <div class="input-group">
+                        <input type="text" name="q" class="form-control" placeholder="Search all..."
+                               value="{{ search_data }}">
+                        <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                        </button>
+                      </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading custom-panel-heading">
+                <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                请求列表
+            </div>
+
+
+{# 方案列表下面的搜索框 #}
+<div class="row">
+    <div class="col-md-2">
+        <!-- 主题框 -->
+        <form method="get">
+            <div class="input-group">
+                <input type="text" name="zhu_ti" class="form-control" placeholder="Search 主题" value="{{ zhuti_data }}">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    </button>
+                </span>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-2">
+        <!-- 时间框 -->
+        <form method="get">
+            <div class="input-group">
+                <input type="text" name="ri_qi" class="form-control" placeholder="Search 日期" value="{{ riqi_data }}">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    </button>
+                </span>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-2">
+        <!-- 技术员框 -->
+        <form method="get">
+            <div class="input-group">
+                <input type="text" name="ji_shu_yuan" class="form-control" placeholder="Search 技术员" value="{{ jishuyuan_data }}">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    </button>
+                </span>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-2">
+        <!-- 账户框 -->
+        <form method="get">
+            <div class="input-group">
+                <input type="text" name="zhang_hu" class="form-control" placeholder="Search 账户" value="{{ zhanghu_data }}">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    </button>
+                </span>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-4">
+        <!-- 描述框 -->
+        <form method="get">
+            <div class="input-group">
+                <input type="text" name="miao_shu" class="form-control" placeholder="Search 描述" value="{{ miaoshu_data }}">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    </button>
+                </span>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
+
+            <style>
+                th{
+                    text-align: center;{# 文字居中#}
+                }
+
+                .fixed-width-column {
+                width: 100px; /* 设置主题列的固定宽度 */
+                }
+            </style>
+            <!-- Table -->
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th class="fixed-width-column">主题</th>
+                    <th class="date-width-column">创建日</th> {# 添加固定宽度类到主题列 #}
+                    <th class="date-width-column">逾期时间</th>
+                    <th>请求人</th>
+                    <th>技术员</th>
+                    <th>账户</th>
+                    <th>地点</th>
+                    <th class="miaoshu-width-column">描述</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for obj in queryset %}
+                <tr>
+                    <th><a href="{{ obj.链接 }}">{{ obj.ID }}</a></th>
+                        <th><a href="{{ obj.链接 }}">
+                            {% if search_data and search_data|lower in obj.主题|lower %}
+                                <span class="highlight"><strong>{{ obj.主题|safe }}</strong></span>
+                            {% else %}
+                                {{ obj.主题|safe }}
+                            {% endif %}
+                        </a></th>
+                    <td>
+                        {% if search_data and search_data|lower in obj.创建日|lower %}
+                            <span class="highlight"><strong>{{ obj.创建日|safe }}</strong></span>
+                        {% else %}
+                            {{ obj.创建日|safe }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if search_data and search_data|lower in obj.逾期时间|lower %}
+                            <span class="highlight"><strong>{{ obj.逾期时间|safe }}</strong></span>
+                        {% else %}
+                            {{ obj.逾期时间|safe }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if search_data and search_data|lower in obj.请求人|lower %}
+                            <span class="highlight"><strong>{{ obj.请求人|safe }}</strong></span>
+                        {% else %}
+                            {{ obj.请求人|safe }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if search_data and search_data|lower in obj.技术员|lower %}
+                            <span class="highlight"><strong>{{ obj.技术员|safe }}</strong></span>
+                        {% else %}
+                            {{ obj.技术员|safe }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if search_data and search_data|lower in obj.账户|lower %}
+                            <span class="highlight"><strong>{{ obj.账户|safe }}</strong></span>
+                        {% else %}
+                            {{ obj.账户|safe }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if search_data and search_data|lower in obj.地点|lower %}
+                            <span class="highlight"><strong>{{ obj.地点|safe }}</strong></span>
+                        {% else %}
+                            {{ obj.地点|safe }}
+                        {% endif %}
+                    </td>
+                    <td class="truncate-cell" title="{{ obj.描述|safe }}">
+                        {% if search_data and search_data|lower in obj.描述|lower %}
+                            <span class="highlight"><strong>{{ obj.描述|safe }}</strong></span>
+                        {% else %}
+                            {{ obj.描述|safe }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a class="btn btn-primary btn-xs" href="/request/{{ obj.ID }}/edit">编辑</a>
+{#                        <a class="btn btn-danger btn-xs" href="/request/{{ obj.ID }}/delete">删除</a>#}
+                    </td>
+                </tr>
+{% endfor %}
+
+
+                </tbody>
+            </table>
+        </div>
+            <ul class="pagination">
+                {{ page_string }}
+                {# 分页跳转 #}
+                <div style="width: 20px; display: inline-block;"></div>  {# 添加空白间隔 #}
+                <div style="float: right; width: 200px;">
+                    <form method="get">
+                        <div class="input-group">
+                            <input type="text" name="page" class="form-control" placeholder="页码">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">跳转</button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

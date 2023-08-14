@@ -1,0 +1,42 @@
+{
+  "search": [
+    {
+      "key": "bing",
+      "title": "必应",
+      "placeholder": "输入搜索词",
+      "jsonp": "window.bing.sug",
+      "callback": "window.bing.sug",
+      "search": "https://cn.bing.com/search?q=",
+      "suggest": "https://api.bing.com/qsonhs.aspx?type=cb&q=#content#&cb=window.bing.sug",
+      "default": true
+    },
+    {
+      "key": "baidu",
+      "title": "百度",
+      "placeholder": "百度一下",
+      "jsonp": "cb",
+      "callback": "window.baidu.sug",
+      "search": "https://www.baidu.com/s?wd=",
+      "suggest": "https://suggestion.baidu.com/su?wd=#content#&cb=window.baidu.sug"
+    },
+    {
+      "key": "google",
+      "title": "Google",
+      "placeholder": "在 Google 中搜索",
+      "jsonp": "jsonp",
+      "callback": "window.google.ac.h",
+      "search": "https://www.google.com.hk/search?hl=zh-CN&q=",
+      "suggest": "https://suggestqueries.google.com/complete/search?client=youtube&q=#content#&jsonp=window.google.ac.h"
+    },
+    {
+      "key": "github",
+      "title": "GitHub",
+      "placeholder": "Search on GitHub",
+      "jsonp": "callback",
+      "callback": "window.github.ac.h",
+      "search": "https://github.com/search?q=",
+      "suggest": "https://suggestgithub.com/api/complete/search?org_id=github&q=#content#&callback=window.github.ac.h"
+    }
+  ],
+  "app": {}
+}
