@@ -1,6 +1,7 @@
 count = 0
 
 from bs4 import BeautifulSoup
+import sys
 
 # 定义函数来处理每个HTML文本段
 def process_html_text(html_text):
@@ -29,8 +30,7 @@ def process_html_text(html_text):
     else:
         return entity_id, '在HTML文本中未找到Description。', None
 
-# 假设txt文件名为"html_text.txt"
-file_path = "C:/Users/jky/Desktop/request_text.txt"
+file_path = sys.argv[1] if len(sys.argv) > 1 else 'data/request_text.txt'
 
 # 读取txt文件，并处理每个HTML文本段
 with open(file_path, 'r', encoding='utf-8') as file:

@@ -1,4 +1,5 @@
 import re
+import sys
 
 # 从文本中提取所有超链接
 def extract_links(text):
@@ -7,7 +8,9 @@ def extract_links(text):
     links = re.findall(pattern, text)
     return links
 
-with open('C:/Users/jky/Desktop/links.txt', 'r', encoding='utf-8') as file:
+file_path = sys.argv[1] if len(sys.argv) > 1 else 'data/links.txt'
+
+with open(file_path, 'r', encoding='utf-8') as file:
     text = file.read()
 
 links = extract_links(text)

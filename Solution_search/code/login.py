@@ -1,13 +1,18 @@
 from bs4 import BeautifulSoup
+import os
 import requests
 import urllib3.exceptions
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # 登录页面的URL和登录信息
-login_url = 'https://10.60.1.66'
-username = 'giles.zhou'
-password = 'Tobizit@2023'
+login_url = os.environ.get('SERVICE_DESK_URL', 'https://example.internal')
+username = os.environ.get('SERVICE_DESK_USERNAME', '')
+password = os.environ.get('SERVICE_DESK_PASSWORD', '')
+
+if not username or not password:
+    print('请先设置 SERVICE_DESK_USERNAME 和 SERVICE_DESK_PASSWORD 环境变量。')
+    raise SystemExit(1)
 
 # 创建一个会话对象
 session = requests.Session()
@@ -26,7 +31,7 @@ if response.ok:
 
     # 在会话中继续进行其他请求，保持登录状态
     # 获取需要登录才能访问的页面的内容
-    protected_page_url = 'https://10.60.1.66/HomePage.do?view_type=my_view'
+    protected_page_url = f'{login_url}/HomePage.do?view_type=my_view'
     protected_page_response = session.get(protected_page_url)
 
     # 检查受保护页面获取是否成功

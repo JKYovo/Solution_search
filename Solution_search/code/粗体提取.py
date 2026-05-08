@@ -1,8 +1,9 @@
 # function: 从HTML文本中提取粗体文本
 # -*- coding: utf-8 -*-
 from bs4 import BeautifulSoup
+import sys
 count = 0
-file_path = "C:/Users/jky/Desktop/request_text.txt"
+file_path = sys.argv[1] if len(sys.argv) > 1 else 'data/request_text.txt'
 
 # 读取txt文件，并处理每个HTML文本段
 with open(file_path, 'r', encoding='utf-8') as file:

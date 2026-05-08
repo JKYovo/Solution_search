@@ -1,4 +1,5 @@
 import openpyxl
+import sys
 
 def move_data(src_sheet, dest_sheet, n):
     dest_row = 1
@@ -10,8 +11,14 @@ def move_data(src_sheet, dest_sheet, n):
         dest_sheet.cell(row=dest_row, column=5, value=src_sheet.cell(row=i, column=3).value)
         dest_row += 1
 
-# 打开原始Excel文件
-src_file_path = 'C:/Users/jky/Desktop/Excel(2).xlsx'
+if len(sys.argv) < 3:
+    print("用法: python excel_process.py <源Excel路径> <输出Excel路径> [起始偏移n]")
+    raise SystemExit(1)
+
+src_file_path = sys.argv[1]
+dest_file_path = sys.argv[2]
+n = int(sys.argv[3]) if len(sys.argv) > 3 else 0
+
 src_workbook = openpyxl.load_workbook(src_file_path)
 src_sheet = src_workbook.active
 
@@ -19,14 +26,10 @@ src_sheet = src_workbook.active
 dest_workbook = openpyxl.Workbook()
 dest_sheet = dest_workbook.active
 
-# 设置 n 值，根据规则进行数据移动
-n = 0
-
 # 调用函数进行数据移动
 move_data(src_sheet, dest_sheet, n)
 
 # 保存新的Excel文件
-dest_file_path = 'C:/Users/jky/Desktop/new_data.xlsx'
 dest_workbook.save(dest_file_path)
 
 print("数据移动完成并存入新的Excel文件。")

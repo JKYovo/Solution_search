@@ -1,7 +1,9 @@
 import pandas as pd
+import sys
 
 # 从文本文件中读取数据
-file_path = "C:/Users/jky/Desktop/description.txt"
+file_path = sys.argv[1] if len(sys.argv) > 1 else 'data/description.txt'
+output_file_path = sys.argv[2] if len(sys.argv) > 2 else 'data/request_desc.xlsx'
 
 with open(file_path, 'r', encoding='utf-8') as file:
     lines = file.readlines()
@@ -32,7 +34,6 @@ data_dict = {
 df = pd.DataFrame(data_dict)
 
 # 将数据输出到Excel文件
-output_file_path = "C:/Users/jky/Desktop/request_desc.xlsx"
 df.to_excel(output_file_path, index=False)
 
 print("数据已保存到", output_file_path)
